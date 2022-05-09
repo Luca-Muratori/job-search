@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom";
 import SingleCompanyJobList from "./SingleCompanyJobList";
 import { useEffect, useState } from "react";
+
 const CompanyListJob = () => {
   const [job, setJob] = useState([]);
   const params = useParams();
 
   const companyName = params.companyName;
-  console.log(companyName);
 
   const fetchJobByCompanyName = async (companyName) => {
     try {
@@ -29,13 +29,16 @@ const CompanyListJob = () => {
 
   return (
     <>
-      <ul>
+      <ol>
         {job.map((job) => (
-          <li key={job._id}>
+          <li
+            style={{ border: "1px solid black", marginBottom: "10px" }}
+            key={job._id}
+          >
             <SingleCompanyJobList job={job} />
           </li>
         ))}
-      </ul>
+      </ol>
     </>
   );
 };

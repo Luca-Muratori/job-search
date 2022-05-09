@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Homepage from "./components/Homepage.jsx";
+import { useEffect, useState } from "react";
 
-function App() {
+const App = () => {
+  const [job, setJob] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const fetchData = async () => {
+    try {
+      let response = await fetch(
+        `https://strive-jobs-api.herokuapp.com/jobs?search=${searchQuery}&limit=30`
+      );
+      if (response.ok) {
+        let data = await response.json();
+        setJob(data.data);
+        console.log(data.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="/"
+            element={<Homepage job={job} searchQuery={searchQuery} />}
+          />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
-}
+};
 
 export default App;

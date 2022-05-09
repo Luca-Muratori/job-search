@@ -2,9 +2,13 @@ import SingleJob from "./SingleJob";
 
 const JobsList = ({ job }) => (
   <>
-    {job.map((job) => (
-      <SingleJob job={job} />
-    ))}
+    <ul>
+      {job.map((job) => (
+        <li key={job._id}>
+          <SingleJob job={job} />
+        </li>
+      ))}
+    </ul>
   </>
 );
 

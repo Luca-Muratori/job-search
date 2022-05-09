@@ -6,15 +6,14 @@ const App = () => {
   const [job, setJob] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const fetchData = async () => {
+  const fetchDataByRole = async () => {
     try {
       let response = await fetch(
-        `https://strive-jobs-api.herokuapp.com/jobs?search=${searchQuery}&limit=30`
+        `https://strive-jobs-api.herokuapp.com/jobs?search=${searchQuery}&limit=10`
       );
       if (response.ok) {
         let data = await response.json();
         setJob(data.data);
-        console.log(data.data);
       }
     } catch (error) {
       console.log(error);
@@ -22,8 +21,14 @@ const App = () => {
   };
 
   useEffect(() => {
-    fetchData();
+    fetchDataByRole();
   }, []);
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    setSearchQuery(e.target.value);
+    console.log(job);
+  };
 
   return (
     <div>
@@ -31,7 +36,13 @@ const App = () => {
         <Routes>
           <Route
             path="/"
-            element={<Homepage job={job} searchQuery={searchQuery} />}
+            element={
+              <Homepage
+                job={job}
+                handleChange={handleChange}
+                searchQuery={searchQuery}
+              />
+            }
           />
         </Routes>
       </BrowserRouter>

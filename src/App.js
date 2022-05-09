@@ -6,7 +6,7 @@ const App = () => {
   const [job, setJob] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const fetchDataByRole = async () => {
+  const fetchDataByRole = async (searchQuery) => {
     try {
       let response = await fetch(
         `https://strive-jobs-api.herokuapp.com/jobs?search=${searchQuery}&limit=10`
@@ -27,7 +27,7 @@ const App = () => {
   const handleChange = (e) => {
     e.preventDefault();
     setSearchQuery(e.target.value);
-    console.log(job);
+    fetchDataByRole(searchQuery);
   };
 
   return (

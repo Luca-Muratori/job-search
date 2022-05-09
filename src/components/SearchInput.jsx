@@ -1,7 +1,6 @@
-import { InputGroup, Form } from "react-bootstrap";
-import { useState } from "react";
+import { Form } from "react-bootstrap";
 
-const SearchInput = ({ job, searchQuery, handleChange }) => {
+const SearchInput = ({ searchQuery, handleChange }) => {
   return (
     <Form.Group controlId="formBasicEmail">
       <Form.Label>Search by role</Form.Label>

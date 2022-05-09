@@ -27,7 +27,7 @@ const App = () => {
   const handleChange = (e) => {
     e.preventDefault();
     setSearchQuery(e.target.value);
-    fetchDataByRole(searchQuery);
+    searchQuery === "" ? fetchDataByRole() : fetchDataByRole(searchQuery);
   };
 
   return (

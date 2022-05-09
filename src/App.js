@@ -1,16 +1,15 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Homepage from "./components/Homepage.jsx";
 import { useEffect, useState } from "react";
+import CompanyListJob from "./components/CompanyListJob.jsx";
 
 const App = () => {
   const [job, setJob] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const fetchDataByRole = async (searchQuery) => {
+  const fetchData = async () => {
     try {
-      let response = await fetch(
-        `https://strive-jobs-api.herokuapp.com/jobs?search=${searchQuery}&limit=10`
-      );
+      let response = await fetch(`https://strive-jobs-api.herokuapp.com/jobs`);
       if (response.ok) {
         let data = await response.json();
         setJob(data.data);
@@ -20,14 +19,30 @@ const App = () => {
     }
   };
 
+  const fetchDataByRole = async (searchQuery) => {
+    try {
+      let response = await fetch(
+        `https://strive-jobs-api.herokuapp.com/jobs?search=${searchQuery}&limit=10`
+      );
+      if (response.ok) {
+        let data = await response.json();
+        setJob(data.data);
+        console.log(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    fetchDataByRole();
+    fetchData();
+    fetchDataByRole(searchQuery);
   }, []);
 
   const handleChange = (e) => {
     e.preventDefault();
     setSearchQuery(e.target.value);
-    searchQuery === "" ? fetchDataByRole() : fetchDataByRole(searchQuery);
+    searchQuery === "" ? fetchData() : fetchDataByRole(searchQuery);
   };
 
   return (
@@ -44,6 +59,7 @@ const App = () => {
               />
             }
           />
+          <Route path={`/company/:companyName`} element={<CompanyListJob />} />
         </Routes>
       </BrowserRouter>
     </div>

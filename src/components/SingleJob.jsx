@@ -19,12 +19,13 @@ const mapDispatchToProps = (dispatch) => {
 
 const SingleJob = ({ job, addToFavoriteProp }) => {
   return (
-    <div>
+    <div style={{ display: "flex", marginBottom: "5px" }}>
       <div>
         <Link to={`/company/${job.company_name}`}>{job.company_name}</Link> -
         {job.title}
       </div>
       <Button
+        style={{ marginLeft: "5px" }}
         color="success"
         onClick={() => {
           addToFavoriteProp(job);

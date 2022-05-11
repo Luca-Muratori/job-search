@@ -11,7 +11,9 @@ const App = () => {
 
   const fetchData = async () => {
     try {
-      let response = await fetch(`https://strive-jobs-api.herokuapp.com/jobs`);
+      let response = await fetch(
+        `https://strive-jobs-api.herokuapp.com/jobs&limit=10`
+      );
       if (response.ok) {
         let data = await response.json();
         setJob(data.data);

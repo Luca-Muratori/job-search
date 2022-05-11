@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { removeFromFavorite } from "../slices/favorite/favoriteSlice";
@@ -19,7 +20,8 @@ const Favorite = ({ favoriteContent, removeFromFavoriteProp }) => (
     {favoriteContent.map((job, i) => (
       <li>
         <p key={job._id}>
-          {job.title}-{job.company_name}
+          {job.title}-
+          <Link to={`/company/${job.company_name}`}>{job.company_name}</Link>
           <Button
             style={{ marginLeft: "5px" }}
             onClick={() => removeFromFavoriteProp(i)}

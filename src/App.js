@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Homepage from "./components/Homepage.jsx";
 import { useEffect, useState } from "react";
 import CompanyListJob from "./components/CompanyListJob.jsx";
+import Favorite from "./components/Favorite.jsx";
+import FavoriteIndicator from "./components/favoriteIndicator.jsx";
 
 const App = () => {
   const [job, setJob] = useState([]);
@@ -48,6 +50,7 @@ const App = () => {
   return (
     <div>
       <BrowserRouter>
+        <FavoriteIndicator />
         <Routes>
           <Route
             path="/"
@@ -60,6 +63,7 @@ const App = () => {
             }
           />
           <Route path={`/company/:companyName`} element={<CompanyListJob />} />
+          <Route path="/cart" element={<Favorite />} />
         </Routes>
       </BrowserRouter>
     </div>

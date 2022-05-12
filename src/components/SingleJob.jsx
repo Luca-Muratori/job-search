@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import CompanyListJob from "./CompanyListJob.jsx";
 import { MdFavorite } from "react-icons/md";
 import { Button } from "react-bootstrap";
 import { connect } from "react-redux";

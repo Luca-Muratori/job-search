@@ -4,6 +4,18 @@ import { useEffect, useState } from "react";
 import CompanyListJob from "./components/CompanyListJob.jsx";
 import Favorite from "./components/Favorite.jsx";
 import FavoriteIndicator from "./components/FavoriteIndicator.jsx";
+import { getSearchJobs } from "./slices/search/searchSlice";
+import { connect } from "react-redux";
+
+const mapStateToProps = (state) => ({
+  searchJobArray: state.search.stock,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  getJobProp: (url) => {
+    dispatch(getSearchJobs(url));
+  },
+});
 
 const App = () => {
   const [job, setJob] = useState([]);
@@ -11,9 +23,7 @@ const App = () => {
 
   const fetchData = async () => {
     try {
-      let response = await fetch(
-        `https://strive-jobs-api.herokuapp.com/jobs&limit=10`
-      );
+      let response = await fetch(`https://strive-jobs-api.herokuapp.com/jobs`);
       if (response.ok) {
         let data = await response.json();
         setJob(data.data);
@@ -23,19 +33,24 @@ const App = () => {
     }
   };
 
-  const fetchDataByRole = async (searchQuery) => {
-    try {
-      let response = await fetch(
-        `https://strive-jobs-api.herokuapp.com/jobs?search=${searchQuery}&limit=10`
-      );
-      if (response.ok) {
-        let data = await response.json();
-        setJob(data.data);
-        console.log(data);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+  const fetchDataByRole = async ({ searchQuery }) => {
+    getSearchJobs(
+      `https://strive-jobs-api.herokuapp.com/jobs?search=${searchQuery}&limit=10`
+    );
+
+    // try {
+    //   let response = await fetch(
+    //     `https://strive-jobs-api.herokuapp.com/jobs?search=${searchQuery}&limit=10`
+    //   );
+
+    //   if (response.ok) {
+    //     let data = await response.json();
+    //     setJob(data.data);
+    //     console.log(data);
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   useEffect(() => {
@@ -72,4 +87,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -24,7 +24,6 @@ const CompanyListJob = () => {
 
   useEffect(() => {
     fetchJobByCompanyName(companyName);
-    console.log("job", job);
   }, []);
 
   return (

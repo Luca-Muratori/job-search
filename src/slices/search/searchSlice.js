@@ -7,7 +7,7 @@ export const getSearchJobs = createAsyncThunk(
       let response = await fetch(url);
       if (response.ok) {
         let data = await response.json();
-        return data;
+        return data.data;
       } else {
         return thunkAPI.rejectWithValue();
       }

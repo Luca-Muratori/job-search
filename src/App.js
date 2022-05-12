@@ -12,29 +12,30 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getJobProp: (url) => {
+  getSearchJobsProp: (url) => {
     dispatch(getSearchJobs(url));
   },
 });
 
-const App = () => {
+const App = (props) => {
   const [job, setJob] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const fetchData = async () => {
-    try {
-      let response = await fetch(`https://strive-jobs-api.herokuapp.com/jobs`);
-      if (response.ok) {
-        let data = await response.json();
-        setJob(data.data);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+  const fetchData = async ({ getSearchJobsProp }) => {
+    getSearchJobsProp(`https://strive-jobs-api.herokuapp.com/jobs`);
+    // try {
+    //   let response = await fetch(`https://strive-jobs-api.herokuapp.com/jobs`);
+    //   if (response.ok) {
+    //     let data = await response.json();
+    //     setJob(data.data);
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
-  const fetchDataByRole = async ({ searchQuery }) => {
-    getSearchJobs(
+  const fetchDataByRole = async ({ searchQuery, getSearchJobsProp }) => {
+    getSearchJobsProp(
       `https://strive-jobs-api.herokuapp.com/jobs?search=${searchQuery}&limit=10`
     );
 
@@ -54,14 +55,22 @@ const App = () => {
   };
 
   useEffect(() => {
-    fetchData();
-    fetchDataByRole(searchQuery);
+    fetchData({ getSearchJobsProp: props.getSearchJobsProp });
+    fetchDataByRole({
+      searchQuery,
+      getSearchJobsProp: props.getSearchJobsProp,
+    });
   }, []);
 
   const handleChange = (e) => {
     e.preventDefault();
     setSearchQuery(e.target.value);
-    searchQuery === "" ? fetchData() : fetchDataByRole(searchQuery);
+    searchQuery
+      ? fetchDataByRole({
+          searchQuery,
+          getSearchJobsProp: props.getSearchJobsProp,
+        })
+      : fetchData({ getSearchJobsProp: props.getSearchJobsProp });
   };
 
   return (
